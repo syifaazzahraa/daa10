@@ -1,0 +1,170 @@
+DAA10.ipynb
+DAA10.ipynb_
+[ ]
+pip install pulp==2.3.1
+Collecting pulp==2.3.1
+  Downloading PuLP-2.3.1-py3-none-any.whl (40.6 MB)
+     |████████████████████████████████| 40.6 MB 16 kB/s 
+Collecting amply>=0.1.2
+  Downloading amply-0.1.4-py3-none-any.whl (16 kB)
+Requirement already satisfied: docutils>=0.3 in /usr/local/lib/python3.7/dist-packages (from amply>=0.1.2->pulp==2.3.1) (0.17.1)
+Requirement already satisfied: pyparsing in /usr/local/lib/python3.7/dist-packages (from amply>=0.1.2->pulp==2.3.1) (2.4.7)
+Installing collected packages: amply, pulp
+Successfully installed amply-0.1.4 pulp-2.3.1
+[ ]
+import pulp
+[ ]
+# Instantiate our problem class
+model = pulp.LpProblem("ProfitMaximisingProblem", pulp.LpMaximize)
+[ ]
+A = pulp.LpVariable('A', lowBound=0, cat='Integer')
+B = pulp.LpVariable('B', lowBound=0, cat='Integer')
+[ ]
+# Objective function
+model += 5000 * A + 2500 * B, "Profit"
+# Constraints
+model += 3 * A + 2 * B <= 20
+model += 4 * A + 3 * B <= 30
+model += 4 * A + 3 * B <= 44
+[ ]
+# Solve our problem
+model.solve()
+pulp.LpStatus[model.status]
+
+[ ]
+# Print our decision variable values
+print (A.varValue)
+print (B.varValue)
+6.0
+1.0
+[ ]
+# Print our objective function value
+print (pulp.value(model.objective))
+32500.0
+[ ]
+model = pulp.LpProblem("ProfitMaximissingProblem", pulp.LpMaximize)
+X = pulp.LpVariable('X', lowBound=0, cat='Integer')
+Y = pulp.LpVariable('Y', lowBound=0, cat='Integer')
+
+model += 4 * X + 3 * Y == 34
+model += 5 * X + 1 * Y == 37
+
+model.solve()
+
+print(X.varValue)
+print(Y.varValue)
+7.0
+2.0
+[ ]
+model = pulp.LpProblem("ProfitMaximissingProblem", pulp.LpMaximize)
+X = pulp.LpVariable('X', lowBound=0, cat='Integer')
+Y = pulp.LpVariable('Y', lowBound=0, cat='Integer')
+
+model += 3 * X + 4 * Y == 11000
+model += 1 * X + 7 * Y == 15000
+model += 2 * X + 6 * Y 
+
+model.solve()
+
+print(X.varValue)
+print(Y.varValue)
+print(pulp.value(model.objective))
+1000.0
+2000.0
+14000.0
+[ ]
+model = pulp.LpProblem("ProfitMaximissingProblem", pulp.LpMaximize)
+X = pulp.LpVariable('X', lowBound=0, cat='Integer')
+Y = pulp.LpVariable('Y', lowBound=0, cat='Integer')
+
+model += 2 * X + 2 * Y, "Profit"
+model += 2 * X + 2 * Y == 44
+model += 2 * X + 2 * (X-6) == 44
+
+model.solve()
+
+print(X.varValue)
+print(Y.varValue)
+print(pulp.value(model.objective))
+14.0
+8.0
+44.0
+[ ]
+# Import required Libraries
+import numpy as np
+from scipy. optimize import linprog
+[ ]
+# Set the inequality constraints matrix
+# Note: the inequality constraints must be in the form of <=
+A = np.array([[1, 0], [2, 3], [1, 1], [-1, 0], [0, -1]])
+[ ]
+# Set the inequality constraints vector
+b = np.array([16, 19, 8, 0, 0])
+[ ]
+# Set the coefficients of the linear objective function vector
+# Note: when maximizing, change the signs of the c vector coefficient
+c = np.array([-5, -7])
+[ ]
+# Solve Linear programming problem
+res = linprog(c, A_ub=A, b_ub=b)
+/usr/local/lib/python3.7/dist-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+[ ]
+# print results
+print('Optimal value:', round(res.fun*-1, ndigits=2),
+      '\nx values:', res.x,
+      '\nNumber of iterations performed:', res.nit,
+      '\nStatus:', res.message)
+Optimal value: 46.0 
+x values: [5. 3.] 
+Number of iterations performed: 5 
+Status: Optimization terminated successfully.
+[ ]
+# Algoritma Scipy
+import numpy as np
+from scipy.optimize import linprog
+
+A = np.array([[4, 12], [2, 1], [-1, 0], [0, -1]])
+
+b = np.array([28, 21, 0, 0])
+
+c = np.array([-5, -7])
+
+res = linprog(c, A_ub=A, b_ub=b)
+
+print('Optimal value:', round(res.fun*-1, ndigits=2),
+      '\nx values:', res.x,
+      '\nNumber of iterations performed:', res.nit,
+      '\nStatus:', res.message)
+Optimal value: 35.0 
+x values: [7.00000000e+00 4.27537625e-11] 
+Number of iterations performed: 4 
+Status: Optimization terminated successfully.
+/usr/local/lib/python3.7/dist-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+[ ]
+# Set the inequality constraints matrix
+# Note: the inequality constraints must be in the form of <=
+A = np.array([[1, 1], [3, 4], [-1, 0], [0, -1]])
+
+# Set the inequality constraints vector
+b = np.array([16, 55, 0, 0])
+
+# Set the coefficients of the linear objective function vector
+# Note: when maximizing, change the signs of the c vector coefficient
+c = np.array([-1, -1])
+
+# Solve Linear programming problem
+res = linprog(c, A_ub=A, b_ub=b)
+
+# print results
+print('Optimal value:', round(res.fun*-1, ndigits=2),
+      '\nx values:', res.x,
+      '\nNumber of iterations performed:', res.nit,
+      '\nStatus:', res.message)
+Optimal value: 16.0 
+x values: [11.28137674  4.71862326] 
+Number of iterations performed: 5 
+Status: Optimization terminated successfully.
+/usr/local/lib/python3.7/dist-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
